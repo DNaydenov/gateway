@@ -1,0 +1,27 @@
+services:
+  mysql:
+    image: 'mysql:latest'
+    environment:
+      - 'MYSQL_DATABASE=mydatabase'
+      - 'MYSQL_PASSWORD=secret'
+      - 'MYSQL_ROOT_PASSWORD=verysecret'
+      - 'MYSQL_USER=myuser'
+    ports:
+      - '32768:3306'
+  redis:
+    image: "redis:latest"           # Use the official Redis image from Docker Hub
+    container_name: "redis-cache" # Optional name for the container
+    ports:
+      - "6379:6379"                 # Map port 6379 on the container to port 6379 on the host
+    networks:
+      - cache-network
+    volumes:
+      - redis_data:/data            # Optional: Mount a volume for data persistence
+
+networks:
+  cache-network:
+    driver: bridge
+
+volumes:
+  redis_data:
+    driver: local
