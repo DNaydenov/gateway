@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface RequestInformationRepository extends JpaRepository<RequestInformation, Long> {
-    public RequestInformation findByRequestId(String requestId);
+    RequestInformation findByRequestId(String requestId);
 }

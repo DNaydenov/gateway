@@ -17,17 +17,8 @@ public class RequestInformation {
     private String clientId;
     private Instant time;
 
-
-    public String getRequestId() {
-        return requestId;
-    }
-
     public void setRequestId(String requestId) {
         this.requestId = requestId;
-    }
-
-    public String getClientId() {
-        return clientId;
     }
 
     public void setClientId(String clientId) {
@@ -40,10 +31,6 @@ public class RequestInformation {
 
     public void setTime(Instant time) {
         this.time = time;
-    }
-
-    public String getServiceName() {
-        return serviceName;
     }
 
     public void setServiceName(String fromJson) {

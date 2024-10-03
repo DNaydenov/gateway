@@ -11,6 +11,7 @@ import java.util.Date;
 
 @Entity
 public class Currency implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -19,14 +20,6 @@ public class Currency implements Serializable {
     private Double value;
     private Instant timestamp;
     private String base;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getCode() {
         return code;
@@ -52,16 +45,8 @@ public class Currency implements Serializable {
         this.timestamp = timestamp;
     }
 
-    public Date getDate() {
-        return date;
-    }
-
     public void setDate(Date date) {
         this.date = date;
-    }
-
-    public String getBase() {
-        return base;
     }
 
     public void setBase(String base) {
@@ -70,9 +55,9 @@ public class Currency implements Serializable {
 
     @Override
     public String toString() {
-        return "code : " + code +
-                " value : " + value +
-                " timestamp : " + timestamp +
+        return "code: " + code +
+                " value: " + value +
+                " timestamp: " + timestamp +
                 " date: " + date + "\n";
     }
 }

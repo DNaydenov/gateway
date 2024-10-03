@@ -64,5 +64,4 @@ public class XmlController {
 
         return ResponseEntity.ok().body(currencies.toString());
     }
-
 }

@@ -22,7 +22,6 @@ public class ScheduledFetchService {
     public void fetchDataPeriodically() {
         ResponseApiDTO rawData = ratesCollectorService.fetchCurrencies();
         List<Currency> currencies = transformToCurrency(rawData);
-//        currencies.forEach(dataService::saveCurrency);
         dataService.saveCurrencies(currencies);
     }
 

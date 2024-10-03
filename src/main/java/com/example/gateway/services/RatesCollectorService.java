@@ -29,6 +29,5 @@ public class RatesCollectorService {
                 .retrieve()
                 .bodyToFlux(ResponseApiDTO.class)
                 .blockFirst();
-
     }
 }
