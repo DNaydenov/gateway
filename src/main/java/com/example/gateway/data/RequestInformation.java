@@ -12,9 +12,9 @@ public class RequestInformation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Boolean fromJson;
+    private String serviceName;
     private String requestId;
-    private Long clientId;
+    private String clientId;
     private Instant time;
 
 
@@ -26,11 +26,11 @@ public class RequestInformation {
         this.requestId = requestId;
     }
 
-    public Long getClientId() {
+    public String getClientId() {
         return clientId;
     }
 
-    public void setClientId(Long clientId) {
+    public void setClientId(String clientId) {
         this.clientId = clientId;
     }
 
@@ -42,11 +42,11 @@ public class RequestInformation {
         this.time = time;
     }
 
-    public Boolean getFromJson() {
-        return fromJson;
+    public String getServiceName() {
+        return serviceName;
     }
 
-    public void setFromJson(Boolean fromJson) {
-        this.fromJson = fromJson;
+    public void setServiceName(String fromJson) {
+        this.serviceName = fromJson;
     }
 }

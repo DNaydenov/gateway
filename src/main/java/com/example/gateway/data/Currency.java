@@ -73,6 +73,6 @@ public class Currency implements Serializable {
         return "code : " + code +
                 " value : " + value +
                 " timestamp : " + timestamp +
-                "date: " + date + "\n";
+                " date: " + date + "\n";
     }
 }
