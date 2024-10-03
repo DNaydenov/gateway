@@ -33,7 +33,7 @@ public class JsonController {
 
     @PostMapping("/current")
     public ResponseEntity<String> getCurrent(@Valid @RequestBody RequestCurrentDTO requestCurrentDTO) {
-        if (!statisticCollector.checkRequestId(requestCurrentDTO.requestId()))
+        if (statisticCollector.checkForDuplication(requestCurrentDTO.requestId()))
             return ResponseEntity.badRequest().body("Duplicated request id.");
 
         statisticCollector.saveRequestInformation(requestCurrentDTO.client(), requestCurrentDTO.client(), JSON_SERVICE);
@@ -46,7 +46,7 @@ public class JsonController {
 
     @PostMapping("/history")
     public ResponseEntity<String> getHistory(@Valid @RequestBody RequestHistoryDTO requestHistoryDTO) {
-        if (!statisticCollector.checkRequestId(requestHistoryDTO.requestId()))
+        if (statisticCollector.checkForDuplication(requestHistoryDTO.requestId()))
             return ResponseEntity.badRequest().body("Duplicated request id.");
 
         statisticCollector.saveRequestInformation(requestHistoryDTO.client(), requestHistoryDTO.client(), JSON_SERVICE);

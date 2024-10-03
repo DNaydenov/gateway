@@ -24,7 +24,7 @@ public class StatisticCollector {
         return requestInformationRepository.save(requestInformation);
     }
 
-    public boolean checkRequestId(String requestId) {
+    public boolean checkForDuplication(String requestId) {
         return requestInformationRepository.findByRequestId(requestId) != null;
     }
 

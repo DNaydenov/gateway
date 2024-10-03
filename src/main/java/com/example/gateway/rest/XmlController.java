@@ -40,7 +40,7 @@ public class XmlController {
     }
 
     private ResponseEntity<String> executeGet(CommandDTO command) {
-        if (!statisticCollector.checkRequestId(command.getId()))
+        if (statisticCollector.checkForDuplication(command.getId()))
             return ResponseEntity.badRequest().body("Duplicated request id.");
 
         statisticCollector.saveRequestInformation(command.getGet().getConsumer(), command.getId(), XML_SERVICE);
@@ -52,7 +52,7 @@ public class XmlController {
     }
 
     private ResponseEntity<String> executeHistory(CommandDTO command) {
-        if (!statisticCollector.checkRequestId(command.getId()))
+        if (statisticCollector.checkForDuplication(command.getId()))
             return ResponseEntity.badRequest().body("Duplicated request id.");
 
         statisticCollector.saveRequestInformation(command.getHistory().getConsumer(), command.getId(), XML_SERVICE);
