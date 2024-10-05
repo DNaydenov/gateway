@@ -13,10 +13,10 @@ public class CommandDTO {
     private String id;
 
     @Valid
-    GetElement get;
+    private GetElement get;
 
     @Valid
-    HistoryElement history;
+    private HistoryElement history;
 
     @XmlAttribute(name = "id")
     public String getId() {

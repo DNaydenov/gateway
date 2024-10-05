@@ -5,6 +5,7 @@ import com.example.gateway.data.RequestCurrentDTO;
 import com.example.gateway.data.RequestHistoryDTO;
 import com.example.gateway.services.DataService;
 import com.example.gateway.services.StatisticCollector;
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -31,12 +32,13 @@ public class JsonController {
         this.dataService = dataService;
     }
 
+    @RateLimiter(name = "jsonApiRateLimiter")
     @PostMapping("/current")
     public ResponseEntity<String> getCurrent(@Valid @RequestBody RequestCurrentDTO requestCurrentDTO) {
         if (statisticCollector.checkForDuplication(requestCurrentDTO.requestId()))
             return ResponseEntity.badRequest().body("Duplicated request id.");
 
-        statisticCollector.saveRequestInformation(requestCurrentDTO.client(), requestCurrentDTO.client(), JSON_SERVICE);
+        statisticCollector.saveRequestInformation(requestCurrentDTO.client(), requestCurrentDTO.requestId(), JSON_SERVICE);
 
         Currency currency = dataService.getLatestCurrency(requestCurrentDTO.currency());
         if (currency == null) return ResponseEntity.status(NOT_FOUND).body(requestCurrentDTO.currency());
@@ -44,12 +46,13 @@ public class JsonController {
         return ResponseEntity.ok().body(currency.getValue().toString() + " timestamp " + currency.getTimestamp().toString());
     }
 
+    @RateLimiter(name = "jsonApiRateLimiter")
     @PostMapping("/history")
     public ResponseEntity<String> getHistory(@Valid @RequestBody RequestHistoryDTO requestHistoryDTO) {
         if (statisticCollector.checkForDuplication(requestHistoryDTO.requestId()))
             return ResponseEntity.badRequest().body("Duplicated request id.");
 
-        statisticCollector.saveRequestInformation(requestHistoryDTO.client(), requestHistoryDTO.client(), JSON_SERVICE);
+        statisticCollector.saveRequestInformation(requestHistoryDTO.client(), requestHistoryDTO.requestId(), JSON_SERVICE);
 
         List<Currency> currencies = dataService.getAllCurrenciesWithinHours(requestHistoryDTO.currency(), requestHistoryDTO.period());
         if (currencies.isEmpty()) return ResponseEntity.status(NOT_FOUND).body(requestHistoryDTO.currency());

@@ -9,14 +9,14 @@ services:
     ports:
       - '32768:3306'
   redis:
-    image: "redis:latest"           # Use the official Redis image from Docker Hub
-    container_name: "redis-cache" # Optional name for the container
+    image: "redis:latest"
+    container_name: "redis-cache"
     ports:
-      - "6379:6379"                 # Map port 6379 on the container to port 6379 on the host
+      - "6379:6379"
     networks:
       - cache-network
     volumes:
-      - redis_data:/data            # Optional: Mount a volume for data persistence
+      - redis_data:/data
 
 networks:
   cache-network:

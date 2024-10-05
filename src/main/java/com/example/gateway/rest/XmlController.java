@@ -5,6 +5,7 @@ import com.example.gateway.data.Currency;
 import com.example.gateway.data.HistoryElement;
 import com.example.gateway.services.DataService;
 import com.example.gateway.services.StatisticCollector;
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -28,6 +29,7 @@ public class XmlController {
         this.statisticCollector = statisticCollector;
     }
 
+    @RateLimiter(name = "jsonApiRateLimiter")
     @PostMapping(value = "/command", consumes = "application/xml", produces = "application/json")
     public ResponseEntity<String> executeCommand(@Valid @RequestBody CommandDTO command) {
         if (command.getGet() != null && command.getHistory() == null) {
