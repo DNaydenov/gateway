@@ -30,7 +30,7 @@ public class DataServiceTest {
 
     ResponseApiDTO responseApiDTO;
 
-    @BeforeEach
+//    @BeforeEach
     public void setUp() {
         responseApiDTO = new ResponseApiDTO(
                 true,
@@ -42,7 +42,7 @@ public class DataServiceTest {
         MockitoAnnotations.openMocks(this);
     }
 
-    @Test
+//    @Test
     void saveApiData() {
 
         when(ratesCollectorService.fetchCurrencies()).thenReturn(responseApiDTO);

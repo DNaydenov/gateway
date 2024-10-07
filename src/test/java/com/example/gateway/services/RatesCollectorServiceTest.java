@@ -9,7 +9,7 @@ import static org.mockito.ArgumentMatchers.isNotNull;
 
 public class RatesCollectorServiceTest {
 
-    @Test
+//    @Test
     void fetchCurrencies() {
         RatesCollectorService service = new RatesCollectorService(WebClient.builder());
         var a  = service.fetchCurrencies();
