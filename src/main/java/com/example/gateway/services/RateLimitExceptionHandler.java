@@ -11,7 +11,7 @@ import static org.springframework.http.HttpStatus.TOO_MANY_REQUESTS;
 public class RateLimitExceptionHandler {
 
     @ExceptionHandler(RequestNotPermitted.class)
-    public ResponseEntity<String> handleRateLimitException(RequestNotPermitted exception) {
+    public ResponseEntity<String> handleRateLimitException(RequestNotPermitted ignoredException) {
         return new ResponseEntity<>("Rate limit exceeded. Try again later.", TOO_MANY_REQUESTS);
     }
 
