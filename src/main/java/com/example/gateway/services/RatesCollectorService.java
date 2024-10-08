@@ -1,8 +1,6 @@
 package com.example.gateway.services;
 
 import com.example.gateway.data.ResponseApiDTO;
-import org.springframework.retry.annotation.Backoff;
-import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -17,7 +15,6 @@ public class RatesCollectorService {
                 .build();
     }
 
-    @Retryable(maxAttempts = 2, backoff = @Backoff(delay = 5000))
     public ResponseApiDTO fetchCurrencies() {
         return webClient.get()
                 .uri(uriBuilder -> uriBuilder

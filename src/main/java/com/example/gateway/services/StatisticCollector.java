@@ -50,8 +50,4 @@ public class StatisticCollector {
 
         return countRequestsInInstantPeriod(serviceName, instantStart, instantFinish);
     }
-
-
-
-
 }

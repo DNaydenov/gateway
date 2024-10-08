@@ -37,7 +37,9 @@ public class DataServiceTest {
                 Instant.now(),
                 "EUR",
                 Date.from(Instant.now()),
-                Map.of("USD", 1.2, "BNG", 0.9)
+                Map.of("USD", 1.2, "BNG", 0.9),
+                null
+
         );
         MockitoAnnotations.openMocks(this);
     }

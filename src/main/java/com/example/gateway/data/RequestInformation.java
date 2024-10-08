@@ -5,10 +5,11 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
+import java.io.Serializable;
 import java.time.Instant;
 
 @Entity
-public class RequestInformation {
+public class RequestInformation implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -35,5 +36,13 @@ public class RequestInformation {
 
     public void setServiceName(String fromJson) {
         this.serviceName = fromJson;
+    }
+
+    @Override
+    public String toString() {
+        return "service name: " + serviceName +
+                " request id: " + requestId +
+                " client id: " + clientId +
+                " created at: " + time + "\n";
     }
 }

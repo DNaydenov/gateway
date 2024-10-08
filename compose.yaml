@@ -1,4 +1,22 @@
 services:
+  app:
+    image: gateway-application
+    build:
+      context: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+      - redis
+      - rabbitmq
+    environment:
+      - 'SPRING_RABBITMQ_HOST=rabbitmq'
+      - 'SPRING_RABBITMQ_PORT=5672'
+      - 'SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/mydatabase'
+      - 'SPRING_DATASOURCE_USERNAME=myuser'
+      - 'SPRING_DATASOURCE_PASSWORD=secret'
+      - 'SPRING_DATA_REDIS_HOST=redis'
+      - 'SPRING_DATA_REDIS_PORT=6379'
   mysql:
     image: 'mysql:latest'
     environment:
@@ -15,24 +33,11 @@ services:
       - "6379:6379"
     volumes:
       - redis_data:/data
-  app:
-    image: gateway-application
-    build:
-      context: .
+  rabbitmq:
+    image: rabbitmq:3-management
     ports:
-      - "8080:8080"
-    depends_on:
-      - mysql
-      - redis
-    environment:
-      - 'SPRING_RABBITMQ_HOST=rabbitmq'
-      - 'SPRING_RABBITMQ_PORT=5672'
-      - 'SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/mydatabase'
-      - 'SPRING_DATASOURCE_USERNAME=myuser'
-      - 'SPRING_DATASOURCE_PASSWORD=secret'
-      - 'SPRING_DATA_REDIS_HOST=redis'
-      - 'SPRING_DATA_REDIS_PORT=6379'
-
+      - "5672:5672"
+      - "15672:15672"
 volumes:
   redis_data:
     driver: local

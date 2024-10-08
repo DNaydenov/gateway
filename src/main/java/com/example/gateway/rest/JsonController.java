@@ -3,7 +3,9 @@ package com.example.gateway.rest;
 import com.example.gateway.data.Currency;
 import com.example.gateway.data.RequestCurrentDTO;
 import com.example.gateway.data.RequestHistoryDTO;
+import com.example.gateway.data.RequestInformation;
 import com.example.gateway.services.DataService;
+import com.example.gateway.services.RabbitMQProducer;
 import com.example.gateway.services.StatisticCollector;
 import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import jakarta.validation.Valid;
@@ -26,10 +28,12 @@ public class JsonController {
 
     private final DataService dataService;
     private final StatisticCollector statisticCollector;
+    private final RabbitMQProducer rabbitMQProducer;
 
-    public JsonController(StatisticCollector statisticCollector, DataService dataService) {
+    public JsonController(StatisticCollector statisticCollector, DataService dataService, RabbitMQProducer rabbitMQProducer) {
         this.statisticCollector = statisticCollector;
         this.dataService = dataService;
+        this.rabbitMQProducer = rabbitMQProducer;
     }
 
     @RateLimiter(name = "jsonApiRateLimiter")
@@ -38,7 +42,10 @@ public class JsonController {
         if (statisticCollector.checkForDuplication(requestCurrentDTO.requestId()))
             return ResponseEntity.badRequest().body("Duplicated request id.");
 
-        statisticCollector.saveRequestInformation(requestCurrentDTO.client(), requestCurrentDTO.requestId(), JSON_SERVICE);
+        RequestInformation requestInfo = statisticCollector.saveRequestInformation(requestCurrentDTO.client(), requestCurrentDTO.requestId(), JSON_SERVICE);
+        if (requestInfo != null) {
+            rabbitMQProducer.sendMessage(requestInfo.toString());
+        }
 
         Currency currency = dataService.getLatestCurrency(requestCurrentDTO.currency());
         if (currency == null) return ResponseEntity.status(NOT_FOUND).body(requestCurrentDTO.currency());
@@ -52,7 +59,10 @@ public class JsonController {
         if (statisticCollector.checkForDuplication(requestHistoryDTO.requestId()))
             return ResponseEntity.badRequest().body("Duplicated request id.");
 
-        statisticCollector.saveRequestInformation(requestHistoryDTO.client(), requestHistoryDTO.requestId(), JSON_SERVICE);
+        RequestInformation requestInfo = statisticCollector.saveRequestInformation(requestHistoryDTO.client(), requestHistoryDTO.requestId(), JSON_SERVICE);
+        if (requestInfo != null) {
+            rabbitMQProducer.sendMessage(requestInfo.toString());
+        }
 
         List<Currency> currencies = dataService.getAllCurrenciesWithinHours(requestHistoryDTO.currency(), requestHistoryDTO.period());
         if (currencies.isEmpty()) return ResponseEntity.status(NOT_FOUND).body(requestHistoryDTO.currency());

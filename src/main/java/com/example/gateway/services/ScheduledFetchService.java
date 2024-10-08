@@ -21,6 +21,9 @@ public class ScheduledFetchService {
     @Scheduled(fixedDelayString = "${api.fetch.interval}", initialDelayString = "${api.fetch.initial-delay}")
     public void fetchDataPeriodically() {
         ResponseApiDTO rawData = ratesCollectorService.fetchCurrencies();
+        if (!rawData.success()) {
+            throw new RuntimeException(rawData.error().info());
+        }
         List<Currency> currencies = transformToCurrency(rawData);
         dataService.saveCurrencies(currencies);
     }

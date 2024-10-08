@@ -1,4 +1,4 @@
-package com.example.gateway.services;
+package com.example.gateway.utils;
 
 import io.github.resilience4j.ratelimiter.RequestNotPermitted;
 import org.springframework.http.ResponseEntity;
