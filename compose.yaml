@@ -26,6 +26,8 @@ services:
       - 'MYSQL_USER=myuser'
     ports:
       - '3306:3306'
+    volumes:
+      - mysql_data:/data
   redis:
     image: "redis:latest"
     container_name: "redis-cache"
@@ -40,4 +42,6 @@ services:
       - "15672:15672"
 volumes:
   redis_data:
+    driver: local
+  mysql_data:
     driver: local

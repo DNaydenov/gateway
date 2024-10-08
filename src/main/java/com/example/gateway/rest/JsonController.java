@@ -65,7 +65,7 @@ public class JsonController {
         }
 
         List<Currency> currencies = dataService.getAllCurrenciesWithinHours(requestHistoryDTO.currency(), requestHistoryDTO.period());
-        if (currencies.isEmpty()) return ResponseEntity.status(NOT_FOUND).body(requestHistoryDTO.currency());
+        if (currencies.isEmpty()) return ResponseEntity.ok("no results in for that currency in that period");
 
         return ResponseEntity.ok().body(currencies.toString());
     }
