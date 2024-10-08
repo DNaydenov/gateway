@@ -18,6 +18,29 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/**
+ * REST controller that handles XML-based API requests for executing commands related to currency data.
+ *
+ * <p>
+ * This controller provides an endpoint to process commands sent in XML format. Depending on the command,
+ * it can either fetch the latest currency data or fetch historical data for a given period.
+ * The response is returned in JSON format.
+ * </p>
+ *
+ * <p>
+ * The controller interacts with the following components:
+ * <ul>
+ *   <li>{@link DataService}: For fetching currency data from the database.</li>
+ *   <li>{@link StatisticCollector}: For tracking and storing request information.</li>
+ *   <li>{@link RabbitMQProducer}: For sending request information to RabbitMQ for processing.</li>
+ * </ul>
+ * </p>
+ *
+ * <p>
+ * Rate limiting is applied to the endpoints using the {@link io.github.resilience4j.ratelimiter.annotation.RateLimiter} annotation
+ * to prevent excessive requests.
+ * </p>
+ */
 @RestController
 @RequestMapping("/xml_api")
 @Validated
@@ -33,6 +56,21 @@ public class XmlController {
         this.rabbitMQProducer = rabbitMQProducer;
     }
 
+    /**
+     * Endpoint to execute a command sent in XML format and return a JSON response.
+     *
+     * <p>
+     * This method determines whether the command is for fetching the current currency data or
+     * historical data, based on the content of the command. If both 'get' and 'history' fields
+     * are present or both are missing, it returns a {@code 400 Bad Request}.
+     * </p>
+     *
+     * <p><strong>Rate Limiting:</strong> This endpoint is rate-limited using the {@code jsonApiRateLimiter} configuration.</p>
+     *
+     * @param command the command data, including request ID, and either 'get' or 'history' field
+     * @return the current or historical currency data, or an error message if the request is invalid
+     * @throws IllegalArgumentException if the request body is invalid
+     */
     @RateLimiter(name = "jsonApiRateLimiter")
     @PostMapping(value = "/command", consumes = "application/xml", produces = "application/json")
     public ResponseEntity<String> executeCommand(@Valid @RequestBody CommandDTO command) {

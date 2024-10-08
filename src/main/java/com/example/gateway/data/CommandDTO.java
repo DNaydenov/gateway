@@ -6,6 +6,9 @@ import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
+/**
+ * DTO used in the requests of the xml api
+ */
 @XmlRootElement(name = "command")
 public class CommandDTO {
 

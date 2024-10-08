@@ -4,6 +4,9 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlElement;
 
+/**
+ * Part of {@link CommandDTO}
+ */
 public class GetElement {
 
     @NotBlank(message = "consumer must not be blank")

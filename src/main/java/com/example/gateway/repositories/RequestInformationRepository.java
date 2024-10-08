@@ -9,5 +9,6 @@ import java.time.Instant;
 @Repository
 public interface RequestInformationRepository extends JpaRepository<RequestInformation, Long> {
     RequestInformation findByRequestId(String requestId);
+
     Long countAllByServiceNameAndTimeBetween(String serviceName, Instant start, Instant end);
 }
