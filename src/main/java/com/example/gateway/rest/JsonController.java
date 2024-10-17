@@ -94,7 +94,7 @@ public class JsonController {
         Currency currency = dataService.getLatestCurrency(requestCurrentDTO.currency());
         if (currency == null) return ResponseEntity.status(NOT_FOUND).body(requestCurrentDTO.currency());
 
-        return ResponseEntity.ok().body(currency.getValue().toString() + " timestamp " + currency.getTimestamp().toString());
+        return ResponseEntity.ok().body(currency.getAmount().toString() + " timestamp " + currency.getTimestamp().toString());
     }
 
     /**

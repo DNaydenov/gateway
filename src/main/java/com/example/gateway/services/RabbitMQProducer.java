@@ -5,7 +5,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 /**
- * Produce messages and sends them to a queue
+ * Service responsible for producing and sending messages to a RabbitMQ exchange.
+ * It uses {@link RabbitTemplate} to send messages to the configured exchange
+ * and routing key.
  */
 @Service
 public class RabbitMQProducer {

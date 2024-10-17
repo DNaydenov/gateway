@@ -1,9 +1,6 @@
 package com.example.gateway.data;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.time.Instant;
@@ -16,25 +13,25 @@ public class Currency implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Date date;
-    private String code;
-    private Double value;
+    private String name;
+    private Double amount;
     private Instant timestamp;
     private String base;
 
-    public String getCode() {
-        return code;
+    public String getName() {
+        return name;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setName(String code) {
+        this.name = code;
     }
 
-    public Double getValue() {
-        return value;
+    public Double getAmount() {
+        return amount;
     }
 
-    public void setValue(Double value) {
-        this.value = value;
+    public void setAmount(Double value) {
+        this.amount = value;
     }
 
     public Instant getTimestamp() {
@@ -55,8 +52,8 @@ public class Currency implements Serializable {
 
     @Override
     public String toString() {
-        return "code: " + code +
-                " value: " + value +
+        return "code: " + name +
+                " value: " + amount +
                 " timestamp: " + timestamp +
                 " date: " + date + "\n";
     }

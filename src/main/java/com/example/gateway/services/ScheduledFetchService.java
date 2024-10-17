@@ -59,8 +59,8 @@ public class ScheduledFetchService {
         List<Currency> currencyList = new ArrayList<>();
         responseApiDTO.rates().forEach((key, value) -> {
             Currency temp = new Currency();
-            temp.setCode(key);
-            temp.setValue(value);
+            temp.setName(key);
+            temp.setAmount(value);
             temp.setTimestamp(responseApiDTO.timestamp());
             temp.setDate(responseApiDTO.date());
             currencyList.add(temp);

@@ -37,7 +37,7 @@ public class DataService {
 
         Cache cache = cacheManager.getCache("latestCurrencies");
         if (cache != null) {
-            savedCurrencies.forEach(currency -> cache.put(currency.getCode(), currency));
+            savedCurrencies.forEach(currency -> cache.put(currency.getName(), currency));
         }
         return savedCurrencies;
     }
@@ -51,7 +51,7 @@ public class DataService {
      */
     @Cacheable(value = "latestCurrencies", key = "#currencyCode")
     public Currency getLatestCurrency(String currencyCode) {
-        return repository.findFirstByCodeOrderByTimestampDesc(currencyCode);
+        return repository.findFirstByNameOrderByTimestampDesc(currencyCode);
     }
 
     /**
@@ -63,6 +63,6 @@ public class DataService {
      */
     public List<Currency> getAllCurrenciesWithinHours(String currencyCode, Integer period) {
         Instant instant = (Instant.now().minusSeconds(period * 3600));
-        return repository.findAllByCodeAndTimestampAfter(currencyCode, instant);
+        return repository.findAllByNameAndTimestampAfter(currencyCode, instant);
     }
 }

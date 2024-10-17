@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface CurrencyRepository extends JpaRepository<Currency, Long> {
 
-    Currency findFirstByCodeOrderByTimestampDesc(String code);
+    Currency findFirstByNameOrderByTimestampDesc(String name);
 
-    List<Currency> findAllByCodeAndTimestampAfter(String code, Instant timestamp);
+    List<Currency> findAllByNameAndTimestampAfter(String name, Instant timestamp);
 }

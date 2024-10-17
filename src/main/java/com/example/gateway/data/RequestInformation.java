@@ -26,16 +26,28 @@ public class RequestInformation implements Serializable {
         this.clientId = clientId;
     }
 
-    public Instant getTime() {
-        return time;
-    }
-
     public void setTime(Instant time) {
         this.time = time;
     }
 
     public void setServiceName(String fromJson) {
         this.serviceName = fromJson;
+    }
+
+    public Instant getTime() {
+        return time;
+    }
+
+    public String getRequestId() {
+        return requestId;
+    }
+
+    public String getServiceName() {
+        return serviceName;
+    }
+
+    public String getClientId() {
+        return clientId;
     }
 
     @Override
