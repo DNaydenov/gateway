@@ -24,4 +24,12 @@ public class GetElement {
     public String getCurrency() {
         return currency;
     }
+
+    public void setConsumer(@NotBlank(message = "consumer must not be blank") String consumer) {
+        this.consumer = consumer;
+    }
+
+    public void setCurrency(@NotBlank(message = "currency must not be blank") String currency) {
+        this.currency = currency;
+    }
 }

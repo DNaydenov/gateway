@@ -43,11 +43,9 @@ public class RatesCollectorService {
      * Constructs a {@code RatesCollectorService} with the provided {@link WebClient.Builder}.
      * The WebClient is configured to use the base URL of the external API:
      * <code><a href="https://data.fixer.io/">https://data.fixer.io/</a></code>.
-     *
-     * @param webClientBuilder the {@link WebClient.Builder} used to configure the WebClient instance
      */
-    public RatesCollectorService(WebClient.Builder webClientBuilder) {
-        this.webClient = webClientBuilder.baseUrl("https://data.fixer.io/").build();
+    public RatesCollectorService() {
+        this.webClient = WebClient.builder().baseUrl("https://data.fixer.io/").build();
     }
 
     /**
@@ -64,7 +62,14 @@ public class RatesCollectorService {
      */
     public ResponseApiDTO fetchCurrencies() {
         try {
-            return webClient.get().uri(uriBuilder -> uriBuilder.path("api/latest").queryParam("access_key", accessKey).build()).retrieve().bodyToFlux(ResponseApiDTO.class).blockFirst();
+            return webClient
+                    .get()
+                    .uri(uriBuilder -> uriBuilder.path("api/latest")
+                            .queryParam("access_key", accessKey)
+                            .build())
+                    .retrieve()
+                    .bodyToFlux(ResponseApiDTO.class)
+                    .blockFirst();
         } catch (Exception e) {
             return null;
         }

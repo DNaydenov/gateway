@@ -8,7 +8,6 @@ import com.example.gateway.services.DataService;
 import com.example.gateway.services.RabbitMQProducer;
 import com.example.gateway.services.StatisticCollector;
 import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
-import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -73,13 +72,17 @@ public class XmlController {
      */
     @RateLimiter(name = "jsonApiRateLimiter")
     @PostMapping(value = "/command", consumes = "application/xml", produces = "application/json")
-    public ResponseEntity<String> executeCommand(@Valid @RequestBody CommandDTO command) {
-        if (command.getGet() != null && command.getHistory() == null) {
-            return executeGet(command);
-        } else if (command.getGet() == null && command.getHistory() != null) {
-            return executeHistory(command);
-        } else {
-            return ResponseEntity.badRequest().build();
+    public ResponseEntity<String> executeCommand(@RequestBody CommandDTO command) {
+        try {
+            if (command.getGet() != null && command.getHistory() == null) {
+                return executeGet(command);
+            } else if (command.getGet() == null && command.getHistory() != null) {
+                return executeHistory(command);
+            } else {
+                throw new RuntimeException("Invalid command");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 

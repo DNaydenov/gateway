@@ -35,4 +35,16 @@ public class CommandDTO {
     public HistoryElement getHistory() {
         return history;
     }
+
+    public void setId(@NotBlank(message = "id must not be blank") String id) {
+        this.id = id;
+    }
+
+    public void setGet(@Valid GetElement get) {
+        this.get = get;
+    }
+
+    public void setHistory(@Valid HistoryElement history) {
+        this.history = history;
+    }
 }
