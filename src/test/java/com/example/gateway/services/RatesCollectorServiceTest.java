@@ -1,18 +1,21 @@
 package com.example.gateway.services;
 
+import com.example.gateway.data.ResponseApiDTO;
 import org.junit.jupiter.api.Test;
-import org.springframework.web.reactive.function.client.WebClient;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.isNotNull;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class RatesCollectorServiceTest {
 
-//    @Test
-    void fetchCurrencies() {
-        RatesCollectorService service = new RatesCollectorService(WebClient.builder());
-        var a  = service.fetchCurrencies();
-        assertThat(a, isNotNull());
+    @Test
+    public void testFetchCurrenciesFailure() {
+        RatesCollectorService ratesCollectorService = new RatesCollectorService();
+
+        ResponseApiDTO result = ratesCollectorService.fetchCurrencies();
+
+        assertNotNull(result);
+        assertFalse(result.success());
+        assertNotNull(result.error());
     }
 }
